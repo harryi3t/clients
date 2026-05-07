@@ -1,5 +1,27 @@
 # Bitwarden Clients - Claude Code Configuration
 
+## Fork Context
+
+This is a personal fork of [bitwarden/clients](https://github.com/bitwarden/clients) maintained at `harryi3t/clients`.
+
+**Intentional customizations** (commits prefixed with `[fork]`):
+
+- Premium features unlocked — `hasPremiumPersonally$` and `hasPremiumFromAnySource$` in `libs/common/src/billing/services/account/billing-account-profile-state.service.ts` always return `true`
+
+**Syncing with upstream:**
+
+```bash
+# One-time setup
+git remote add upstream https://github.com/bitwarden/clients.git
+
+# To sync
+git fetch upstream
+git rebase upstream/main   # fix any conflicts, then: git rebase --continue
+git push --force-with-lease origin main
+```
+
+Keep `[fork]` commits at the tip of the branch so they rebase cleanly onto new upstream commits.
+
 ## Project Context Files
 
 **Read these files before reviewing to ensure that you fully understand the project and contributing guidelines**

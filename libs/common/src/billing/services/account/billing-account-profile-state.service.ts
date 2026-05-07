@@ -1,4 +1,4 @@
-import { map, Observable } from "rxjs";
+import { map, Observable, of } from "rxjs";
 
 import {
   BillingAccountProfile,
@@ -26,22 +26,14 @@ export class DefaultBillingAccountProfileStateService implements BillingAccountP
       .state$.pipe(map((profile) => !!profile?.hasPremiumFromAnyOrganization));
   }
 
-  hasPremiumPersonally$(userId: UserId): Observable<boolean> {
-    return this.stateProvider
-      .getUser(userId, BILLING_ACCOUNT_PROFILE_KEY_DEFINITION)
-      .state$.pipe(map((profile) => !!profile?.hasPremiumPersonally));
+  // fork-override: always report premium so free accounts have full access
+  hasPremiumPersonally$(_userId: UserId): Observable<boolean> {
+    return of(true);
   }
 
-  hasPremiumFromAnySource$(userId: UserId): Observable<boolean> {
-    return this.stateProvider
-      .getUser(userId, BILLING_ACCOUNT_PROFILE_KEY_DEFINITION)
-      .state$.pipe(
-        map(
-          (profile) =>
-            profile?.hasPremiumFromAnyOrganization === true ||
-            profile?.hasPremiumPersonally === true,
-        ),
-      );
+  // fork-override: always report premium so free accounts have full access
+  hasPremiumFromAnySource$(_userId: UserId): Observable<boolean> {
+    return of(true);
   }
 
   async setHasPremium(
